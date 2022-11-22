@@ -1,0 +1,28 @@
+#
+# DO NOT EDIT - This file is managed by Terraform
+#
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: infrastructure
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure
+  prune: true
+  validation: client
+  postBuild:
+    substitute:
+      awsRegion: us-east-1
+      clusterName: test-one
+      hostname: test-one.dish.weaveworks-cx.com
+      externalDnsRoleArn: arn:aws:iam::482649550366:role/test-one-external-dns
+      awsLoadBalancerRoleArn: arn:aws:iam::482649550366:role/test-one-aws-load-balancer-controller
+      awsEbsCsiDriverRoleArn: arn:aws:iam::482649550366:role/test-one-aws-ebs-csi-driver
+      tfRunnerRoleArn: arn:aws:iam::482649550366:role/test-one-tf-runner
+      clusterAutoscalerRoleArn: arn:aws:iam::482649550366:role/test-one-cluster-autoscaler
+      awsEfsCsiDriverRoleArn: arn:aws:iam::482649550366:role/test-one-aws-efs-csi-driver
+      efsFileSystemId: fs-06e1e355645c7c92c
